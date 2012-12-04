@@ -1,0 +1,91 @@
+<configure  xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+
+  <browser:page
+     for="*"
+     name="shop_folder_view"
+     template="templates/la_boutique_view.pt"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-summary"
+     manager="..interfaces.IGDWAdminOrderManager"
+     template="templates/order-summary.pt"
+     class=".admin_order.GDWOrderSummaryComponent"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-finance"
+     manager="..interfaces.IGDWAdminOrderManager"
+     template="templates/order-finance.pt"
+     class="Products.PloneGetPaid.browser.admin_order.OrderFinanceComponent"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-fulfillment"
+     manager="..interfaces.IGDWAdminOrderManager"
+     template="templates/order-fulfillment.pt"
+     class="Products.PloneGetPaid.browser.admin_order.OrderFulfillmentComponent"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-all-items"
+     manager="..interfaces.IGDWAdminOrderManager"
+     template="templates/order-item-listing.pt"
+     class=".admin_order.GDWAllItems"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-workflow-log"
+     manager="..interfaces.IGDWAdminOrderManager"
+     class="Products.PloneGetPaid.browser.admin_order.OrderWorkflowLog"
+     permission="cmf.ManagePortal"
+     />
+
+
+   <browser:page
+      for="*"
+      name="boutique-view"
+      class=".BoutiqueView.BoutiqueView"
+      permission="zope.Public"
+      allowed_interface=".interfaces.IBoutiqueView"
+      />
+
+   <browser:page
+      for="*"
+      name="boutiqueItemView"
+      class=".BoutiqueItemView.BoutiqueItemView"
+      permission="zope.Public"
+      allowed_interface=".interfaces.IBoutiqueItemView"
+      />
+
+  <browser:viewlet
+     name="order-summary"
+     manager="gites.shop.interfaces.IGDWOrderDetailsManager"
+     template="templates/order-summary.pt"
+     class=".admin_order.GDWOrderSummaryComponent"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-all-items"
+     manager="gites.shop.interfaces.IGDWOrderDetailsManager"
+     template="templates/order-item-listing.pt"
+     class="Products.PloneGetPaid.browser.admin_order.AllItems"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="order-workflow-log"
+     manager="gites.shop.interfaces.IGDWOrderDetailsManager"
+     class="Products.PloneGetPaid.browser.admin_order.OrderWorkflowLog"
+     permission="zope2.View"
+     />
+
+</configure>

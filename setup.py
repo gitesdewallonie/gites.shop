@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '0.1'
 
@@ -41,4 +40,5 @@ setup(name='gites.shop',
       install_requires=[
           'setuptools',
           'Products.PloneGetPaid',
-      ])
+          'getpaid.ogone'
+      ], extras_require={'test': ['plone.app.testing']})

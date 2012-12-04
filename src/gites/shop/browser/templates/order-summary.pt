@@ -1,0 +1,91 @@
+<fieldset i18n:domain="plonegetpaid">
+
+    <legend i18n:translate="legend_summary"> Summary </legend>
+    <ul>
+        <li>
+            <span i18n:translate="text_order_id"> Order Id</span> -
+            <span i18n:translate="" tal:content="view/getOrderId"> order id </span>
+        </li>
+        <li>
+            <span i18n:translate="text_customer_id"> Customer Id</span> -
+            <span i18n:translate="" tal:content="view/getUserId"> user_id </span>
+        </li>
+        <li>
+            <span i18n:translate="text_creation_date"> Creation Date</span> -
+            <span i18n:translate="" tal:content="view/getCreationDate"> creation_date </span>
+        </li>
+        <li>
+            <span i18n:translate="text_finance_status"> Finance Status </span> -
+            <span i18n:translate="" tal:content="view/finance_status"> finance_status </span>
+        </li>
+        <li>
+            <span i18n:translate="text_fulfillment_status"> Fulfillment Status </span> -
+            <span i18n:translate="" tal:content="view/fulfillment_status"> finance_status </span>
+        </li>
+        <li>
+            <span i18n:translate="text_total_price"> Total Price </span> -
+            <span i18n:translate="" tal:content="view/getTotalPrice"> total price </span>
+        </li>
+        <li>
+          <span i18n:translate="">Contact Name</span> -
+          <span tal:define="contact view/getContactInformation;
+                                    name contact/name|nothing"
+                tal:content="name" /><br/>
+          <span tal:define="contact view/getContactInfos;
+                            email contact/email|nothing;
+                            phone_number contact/phone_number|nothing;">
+                Email: <a href="" tal:attributes="href string:mailto:${email}"
+                          tal:content="email"
+                          /><br/>
+                Phone: <span tal:content="phone_number"/>
+          </span>
+          <table cellspacing="5px">
+            <tr>
+              <td width="150px" valign="top"
+                  tal:define="bill_ad view/getBillingAddress;
+                              bill_first_line bill_ad/bill_first_line|nothing;
+                              bill_second_line bill_ad/bill_second_line|nothing;
+                              bill_city bill_ad/bill_city|nothing;
+                              bill_country bill_ad/bill_country|nothing;
+                              bill_state bill_ad/bill_state|nothing;
+                              bill_postal_code bill_ad/bill_postal_code|nothing;
+                              vat_number  bill_ad/vat_number|nothing;">
+                <span i18n:translate="">Billing Address</span><br /><br />
+                <span tal:content="bill_first_line" /><br />
+                <tal:cond condition="bill_second_line">
+                  <span tal:content="bill_second_line" /><br />
+                </tal:cond>
+                <span tal:content="bill_first_line" /><br />
+                <span tal:content="bill_country" /><br />
+                <span tal:content="bill_state" /><br />
+                <span tal:content="bill_postal_code" /><br />
+                <span tal:content="vat_number" /><br />
+              </td>
+              <td valign="top"
+                  tal:define="ship_ad view/getShippingAddress;">
+                  <span i18n:translate="">Mailing Address</span><br /><br />
+                    <tal:def define="ship_first_line ship_ad/ship_first_line|nothing;
+                                     ship_second_line ship_ad/ship_second_line|nothing;
+                                     ship_city ship_ad/ship_city|nothing;
+                                     ship_country ship_ad/ship_country|nothing;
+                                     ship_state ship_ad/ship_state|nothing;
+                                     ship_postal_code ship_ad/ship_postal_code|nothing">
+
+                      <span tal:content="ship_first_line" /><br />
+                      <tal:cond condition="ship_second_line">
+                        <span tal:content="ship_second_line" /><br />
+                      </tal:cond>
+                      <span tal:content="ship_city" /><br />
+                      <span tal:content="ship_country" /><br />
+                      <span tal:content="ship_state" /><br />
+                      <span tal:content="ship_postal_code" /><br />
+                
+                    </tal:def>
+              </td>
+            </tr>
+          </table>
+        </li>
+    </ul>
+
+</fieldset>
+

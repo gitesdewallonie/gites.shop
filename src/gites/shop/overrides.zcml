@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:viewletManager
+     name="order_admin"
+     permission="zope2.View"
+     provides=".interfaces.IGDWAdminOrderManager"
+     class=".browser.admin_order.AdminOrderManager"
+     />
+
+  <browser:page
+     for="getpaid.core.interfaces.IOrder"
+     name="details"
+     class=".browser.order.OrderDetails"
+     template="browser/templates/order-history.pt"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="getpaid.core.interfaces.IOrder"
+     name="admin"
+     class=".browser.admin_order.AdminOrder"
+     template="browser/templates/order-manage.pt"
+     permission="cmf.ManagePortal"
+     />
+
+  <browser:page
+     for="*"
+     name="portlet-shopping-cart"
+     class="Products.PloneGetPaid.browser.portlet.ShoppingCart"
+     template="browser/templates/portlet-cart.pt"
+     permission="zope2.View"/>
+
+  <browser:page
+    name="portlet-contentwidget"
+    for="Products.PloneGetPaid.interfaces.IBuyableMarker"
+    class="Products.PloneGetPaid.browser.content.ContentPortlet"
+    template="browser/templates/portlet-content-buyable.pt"
+    permission="zope2.View"
+    />
+
+  <browser:page
+     for="*"
+     name="checkout-address-info"
+     class=".browser.checkout.GDWCheckoutAddress"
+     permission="zope2.View"
+     />
+
+  <browser:page
+     for="*"
+     name="checkout-review-pay"
+     class=".browser.checkout.GDWCheckoutReviewAndPay"
+     permission="zope2.View"
+     />
+
+  <browser:viewlet
+     name="20cart-actions"
+     manager="Products.PloneGetPaid.interfaces.IGetPaidCartViewletManager"
+     template="browser/templates/cart-actions.pt"
+     class=".browser.cart.GDWShoppingCartActions"
+     permission="zope2.View"
+     />
+
+   <!-- includeOverrides package="getpaid.ogone" file="overrides.zcml" / -->
+
+</configure>

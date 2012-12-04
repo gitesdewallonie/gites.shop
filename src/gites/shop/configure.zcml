@@ -14,6 +14,9 @@
       description="Installs the gites.shop package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
+    <!-- -*- extra stuff goes here -*- -->
+    <include package="Products.PloneGetPaid"/>
+    <include package="getpaid.ogone"/>
+    <include package=".browser"/>
   
 </configure>

@@ -1,0 +1,79 @@
+<metal:page use-macro="context/@@getpaid-content-template/macros/content_space"
+	i18n:domain="plonegetpaid">
+  <metal:block fill-slot="getpaid_content">
+    <h3 i18n:translate="heading_checkout"> Checkout </h3>
+
+  <form action="."
+        tal:attributes="action request/URL"
+        method="post"
+        enctype="multipart/form-data">
+
+    <div class="hidden_fields"
+	 tal:content="structure view/hidden_inputs"> </div>
+
+    <div class="portalMessage" tal:content="view/status" tal:condition="view/status"> </div>
+
+    <table>
+	<tr>
+		<td colspan="2">
+	  		<fieldset tal:define="widgets python: view.getWidgetsByIName('getpaid.core.interfaces.IUserContactInformation')">
+	    		<legend i18n:translate=""> Contact Information </legend>
+	    		<div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
+	  		</fieldset>
+		</td>
+	</tr>
+    <tr valign="top">
+  <td>
+    <fieldset tal:define="widgets python:view.getWidgetsByIName('gites.shop.interfaces.IShippingAddress')">
+      <legend i18n:translate=""> Mailing Address </legend>
+      <div id="mailing-address">
+        <div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
+      </div>
+    </fieldset>
+  </td>
+	<td valign="top">
+      <tal:def define="same_billing request/form.ship_same_billing|nothing">
+        <tal:block tal:replace='structure string:<script type="text/javascript" charset="utf-8">'></tal:block>
+          <tal:cond condition="not:same_billing" replace="structure string:enableMailingAddress();"></tal:cond>
+          <tal:cond condition="same_billing" replace="structure string:disableMailingAddress();"></tal:cond>
+        <tal:block tal:replace='structure string:</script>'></tal:block>
+      </tal:def>
+	  <fieldset tal:define="widgets python:view.getWidgetsByIName('gites.shop.interfaces.IBillingAddress')">
+	    <legend i18n:translate=""> Billing Address </legend>
+	    <div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
+	  </fieldset>
+       </td>
+
+      </tr>
+
+      <tr>
+	<td colspan="2" align="right">
+
+	  <div id="actionsView">
+	    <span class="actionButtons"
+		  tal:condition="view/availableActions">
+  <!-- action/render doesn't handle i18n translations (fix)
+    <input tal:repeat="action view/actions"
+           tal:replace="structure action/render"
+           />
+  -->
+      <tal:loop tal:repeat="action view/availableActions">
+		<input type="submit" class="button context"
+			   id="" name="" value=""
+			   tal:attributes="id action/__name__;
+			   				   name action/__name__;
+			   				   value python:str(action.label);"
+			   i18n:attributes="value" />
+	  </tal:loop>
+	    </span>
+	  </div>
+
+	</td>
+      </tr>
+    </table>
+
+  </form>
+  <metal:legal use-macro="context/@@legal-disclaimers-links/links" />
+
+  </metal:block>
+</metal:page>
