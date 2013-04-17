@@ -18,19 +18,17 @@
 
     <tal:albumsimages tal:condition="boutiqueItems">
         <tal:images tal:repeat="item boutiqueItems">
-          <div class="photoAlbumEntry">
-                        <a tal:attributes="href string:${item/absolute_url}/view;
-                                           title item/Description">
-                            <span class="shopEntryWrapper">
-                            <img src="" alt="" tal:replace="structure item/getMiniPhoto" />
+          <div class="photoAlbumEntry"
+               tal:define="price python:view.getPrice(item)">
+            <a tal:attributes="href string:${item/absolute_url}/view;
+                               title item/Description">
+                <span class="shopEntryWrapper">
+                <img src="" alt="" tal:replace="structure item/getMiniPhoto" />
                     <div class="shopEntryTitle">
                 <span tal:content="item/pretty_title_or_id"/></div>
-                <span i18n:translate="text_price"
-                      tal:define="price python:view.getPrice(item)">
-                    Price:
-                </span>
-                <span tal:content="price"> &euro;</span>
-                      </a>
+                <span i18n:translate="text_price">Price:</span>
+                <span tal:replace="price" /> &euro;</span>
+            </a>
             <a id="shopCart" href="" tal:attributes="href string:${item/absolute_url}/@@getpaid-cart-add?add_item=True">
                 <img src="basket.gif" tal:attributes="src string:$portal_url/basket.gif" />
                 <span i18n:translate="label_add_to_cart">
