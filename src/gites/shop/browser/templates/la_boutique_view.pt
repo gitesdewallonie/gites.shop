@@ -29,7 +29,7 @@
                       tal:define="price python:view.getPrice(item)">
                     Price:
                 </span>
-                <span tal:content="price" i18n:name="value_price" /> &euro;</span>
+                <span tal:content="price"> &euro;</span>
                       </a>
             <a id="shopCart" href="" tal:attributes="href string:${item/absolute_url}/@@getpaid-cart-add?add_item=True">
                 <img src="basket.gif" tal:attributes="src string:$portal_url/basket.gif" />
