@@ -10,6 +10,8 @@
      tal:define="view context/@@boutique-view;
                  boutiqueItems view/getBoutiqueItems;">
 
+    <div tal:replace="structure provider:plone.abovecontenttitle" />
+
     <h1 tal:content="here/pretty_title_or_id" class="documentFirstHeading">Title or id</h1>
 
     <div tal:content="here/Description" tal:condition="here/Description" class="documentDescription">
