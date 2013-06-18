@@ -63,5 +63,8 @@
      />
 
    <!-- includeOverrides package="getpaid.ogone" file="overrides.zcml" / -->
+   <utility
+    provides="getpaid.core.interfaces.IFormSchemas"
+    factory=".preferences.GitesFormSchemas"/>
 
 </configure>

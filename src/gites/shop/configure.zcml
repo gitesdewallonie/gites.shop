@@ -18,5 +18,9 @@
     <include package="Products.PloneGetPaid"/>
     <include package="getpaid.ogone"/>
     <include package=".browser"/>
-  
+    <!-- adapter
+        for="Products.PloneGetPaid.interfaces.IStoreMember"
+        provides="gites.shop.interfaces.IBillingAddress"
+        factory=".member.memberBillAddressInfo"/ -->
+
 </configure>
