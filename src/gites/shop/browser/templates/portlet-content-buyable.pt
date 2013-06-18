@@ -28,7 +28,7 @@
             <p tal:define="field python: '%.2f' % view.payable.price"
                tal:condition="field"
                i18n:translate="text_price">
-                 Price: <span tal:content="field" i18n:name="value_price" /> €
+                 Price: <span tal:content="field" i18n:name="value_price" /> &euro;
                </p>
 
         </dd>
