@@ -32,7 +32,7 @@
                     <span tal:content="price" i18n:name="value_price" /> &euro;</span>
             </a>
             <a id="shopCart" href="" tal:attributes="href string:${item/absolute_url}/@@getpaid-cart-add?add_item=True">
-                <img src="basket.gif" tal:attributes="src string:$portal_url/basket.gif" />
+                <img alt="Panier" src="basket.gif" tal:attributes="src string:$portal_url/basket.gif" />
                 <span i18n:translate="label_add_to_cart">
                     Add to Cart
                 </span>
