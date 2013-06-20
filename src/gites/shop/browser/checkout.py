@@ -1,4 +1,6 @@
+from Products.CMFCore.utils import getToolByName
 from Products.PloneGetPaid.browser.checkout import CheckoutAddress
+from Products.PloneGetPaid.interfaces import INamedOrderUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gites.shop import interfaces
 from gites.shop.browser.payment import (ShippingAddress,
@@ -84,22 +86,71 @@ class GDWCheckoutAddress(CheckoutAddress):
         return
 
 class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
-#    form_fields = []
-#
-#    passed_fields = form.Fields( interfaces.IBillingAddress ) + \
-#                    form.Fields( interfaces.IShippingAddress ) + \
-#                    form.Fields( IUserContactInformation )
-#
-#    template = ZopeTwoPageTemplateFile("templates/checkout-review-pay.pt")
-
-    actions = CheckoutReviewAndPay.actions.copy()
 
     def customise_widgets(self, fields):
         pass
 
+    @form.action(_(u"Make Payment"), name="make-payment")#, condition=form.haveInputWidgets )
+    def makePayment( self, action, data ):
+        """ create an order, and submit to the processor
+        """
+        siteroot = getToolByName(self.context, "portal_url").getPortalObject()
+        manage_options = IGetPaidManagementOptions(siteroot)
+        processor_name = manage_options.payment_processor
+
+        if not processor_name:
+            raise RuntimeError( "No Payment Processor Specified" )
+
+        processor = component.getAdapter( siteroot,
+                                          interfaces.IPaymentProcessor,
+                                          processor_name )
+
+        adapters = self.wizard.data_manager.adapters
+
+        order = self.createOrder()
+        order.processor_id = processor_name
+        order.finance_workflow.fireTransition( "create" )
+        # extract data to our adapters
+
+        formSchemas = component.getUtility(interfaces.IFormSchemas)
+        last4 = None
+        if adapters[formSchemas.getInterface('payment')].credit_card:
+            last4 = adapters[formSchemas.getInterface('payment')].credit_card[-4:]
+        order.user_payment_info_last4 = last4
+        order.name_on_card = adapters[formSchemas.getInterface('payment')].name_on_card
+        order.bill_phone_number = adapters[formSchemas.getInterface('payment')].bill_phone_number
+        result = processor.authorize( order, adapters[formSchemas.getInterface('payment')] )
+        if result is interfaces.keys.results_async:
+            # shouldn't ever happen, on async processors we're already directed to the third party
+            # site on the final checkout step, all interaction with an async processor are based on processor
+            # adapter specific callback views.
+            pass
+        elif result is interfaces.keys.results_success:
+            order_manager = component.getUtility( interfaces.IOrderManager )
+            order_manager.store( order )
+            order.finance_workflow.fireTransition("authorize")
+            template_key = 'order_template_entry_name'
+            order_template_entry = self.wizard.data_manager.get(template_key)
+            del self.wizard.data_manager[template_key]
+            # if the user submits a name, it means he wants this order named
+            if order_template_entry:
+                uid = getSecurityManager().getUser().getId()
+                if uid != 'Anonymous':
+                    named_orders_list = component.getUtility(INamedOrderUtility).get(uid)
+                    if order_template_entry not in named_orders_list:
+                        named_orders_list[order.order_id] = order_template_entry
+            # kill the cart after we create the order
+            component.getUtility( interfaces.IShoppingCartUtility ).destroy( self.context )
+            self._next_url = self.getNextURL( order )
+        else:
+            order.finance_workflow.fireTransition('reviewing-declined')
+            self.status = result
+            self.form_reset = False
+            self._next_url = self.getNextURL( order )
+
 #    def setupDataAdapters( self ):
 #        self.adapters = {}
-#        self.adapters[ IUserContactInformation ] = MyContactInfo()        
+#        self.adapters[ IUserContactInformation ] = MyContactInfo()
 #        self.adapters[ interfaces.IBillingAddress ] = MyBillAddressInfo()
 #        self.adapters[ interfaces.IShippingAddress ] = MyShipAddressInfo()
 #        self.adapters[ IUserPaymentInformation ] = MyBillingInfo(self.context)
