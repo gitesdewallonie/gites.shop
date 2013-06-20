@@ -10,7 +10,8 @@ from getpaid.core.interfaces import (IUserContactInformation,
                                      IUserPaymentInformation,
                                      IOrderManager,
                                      IPaymentProcessor,
-                                     IShoppingCartUtility)
+                                     IShoppingCartUtility,
+                                     IFormSchemas)
 from Products.PloneGetPaid.browser.widgets import CountrySelectionWidget, StateSelectionWidget
 from Products.PloneGetPaid.browser.checkout import CheckoutReviewAndPay
 from Products.PloneGetPaid.interfaces import IGetPaidManagementOptions
@@ -102,7 +103,7 @@ class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
             raise RuntimeError( "No Payment Processor Specified" )
 
         processor = component.getAdapter( siteroot,
-                                          interfaces.IPaymentProcessor,
+                                          IPaymentProcessor,
                                           processor_name )
 
         adapters = self.wizard.data_manager.adapters
@@ -112,7 +113,7 @@ class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
         order.finance_workflow.fireTransition( "create" )
         # extract data to our adapters
 
-        formSchemas = component.getUtility(interfaces.IFormSchemas)
+        formSchemas = component.getUtility(IFormSchemas)
         last4 = None
         if adapters[formSchemas.getInterface('payment')].credit_card:
             last4 = adapters[formSchemas.getInterface('payment')].credit_card[-4:]
@@ -126,7 +127,7 @@ class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
             # adapter specific callback views.
             pass
         elif result is interfaces.keys.results_success:
-            order_manager = component.getUtility( interfaces.IOrderManager )
+            order_manager = component.getUtility( IOrderManager )
             order_manager.store( order )
             order.finance_workflow.fireTransition("authorize")
             template_key = 'order_template_entry_name'
@@ -140,7 +141,7 @@ class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
                     if order_template_entry not in named_orders_list:
                         named_orders_list[order.order_id] = order_template_entry
             # kill the cart after we create the order
-            component.getUtility( interfaces.IShoppingCartUtility ).destroy( self.context )
+            component.getUtility( IShoppingCartUtility ).destroy( self.context )
             self._next_url = self.getNextURL( order )
         else:
             order.finance_workflow.fireTransition('reviewing-declined')
