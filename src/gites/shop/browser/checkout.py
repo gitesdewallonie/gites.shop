@@ -11,7 +11,8 @@ from getpaid.core.interfaces import (IUserContactInformation,
                                      IOrderManager,
                                      IPaymentProcessor,
                                      IShoppingCartUtility,
-                                     IFormSchemas)
+                                     IFormSchemas,
+                                     keys)
 from Products.PloneGetPaid.browser.widgets import CountrySelectionWidget, StateSelectionWidget
 from Products.PloneGetPaid.browser.checkout import CheckoutReviewAndPay
 from Products.PloneGetPaid.interfaces import IGetPaidManagementOptions
@@ -121,7 +122,7 @@ class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
         order.name_on_card = adapters[formSchemas.getInterface('payment')].name_on_card
         order.bill_phone_number = adapters[formSchemas.getInterface('payment')].bill_phone_number
         result = processor.authorize( order, adapters[formSchemas.getInterface('payment')] )
-        if result is interfaces.keys.results_async:
+        if result is keys.results_async:
             # shouldn't ever happen, on async processors we're already directed to the third party
             # site on the final checkout step, all interaction with an async processor are based on processor
             # adapter specific callback views.
