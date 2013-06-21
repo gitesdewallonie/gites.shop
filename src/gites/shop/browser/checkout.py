@@ -60,8 +60,6 @@ class GDWCheckoutAddress(CheckoutAddress):
                                IUserContactInformation )
     form_fields['ship_country'].custom_widget = CountrySelectionWidget
     form_fields['bill_country'].custom_widget = CountrySelectionWidget
-    form_fields['ship_state'].custom_widget = StateSelectionWidget
-    form_fields['bill_state'].custom_widget = StateSelectionWidget
 
     actions = CheckoutAddress.actions.copy()
 

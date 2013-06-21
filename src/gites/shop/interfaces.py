@@ -13,7 +13,7 @@ class IGDWAdminOrderManager( IViewletManager ):
             """
 
 class IBillingAddress( Interface ):
-    """ where to bill 
+    """ where to bill
     """
     ship_same_billing = schema.Bool( title = _(u"Same as shipping address"), required=False)
 
@@ -24,9 +24,6 @@ class IBillingAddress( Interface ):
                                  vocabulary = "getpaid.countries",
                                  default=u'BE',
                                  required=False)
-    bill_state = schema.Choice(title = _(u"State"),
-                               vocabulary="getpaid.states",
-                               required=False)
     bill_postal_code = schema.TextLine( title = _(u"Zip Code"),
                                        required=False)
     vat_number = schema.TextLine(title = _(u"VAT Number"),
@@ -43,7 +40,5 @@ class IShippingAddress( Interface ):
     ship_country = schema.Choice( title = _(u"Country"),
                                     vocabulary = "getpaid.countries",
                                  default=u'BE')
-    ship_state = schema.Choice( title = _(u"State"),
-                                  vocabulary="getpaid.states")
     ship_postal_code = schema.TextLine( title = _(u"Zip Code"))
 
