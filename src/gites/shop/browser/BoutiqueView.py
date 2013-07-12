@@ -3,6 +3,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.PloneGetPaid.interfaces import IBuyableMarker
 from getpaid.core.interfaces import IBuyableContent
 
+
 class BoutiqueView(BrowserView):
     """
     Related methods for Shop layout
@@ -26,6 +27,3 @@ class BoutiqueView(BrowserView):
         """ return the price of a buyable item """
         payable = IBuyableContent(item)
         return "%.2f" % payable.price
-
-
-

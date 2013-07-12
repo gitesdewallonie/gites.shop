@@ -2,6 +2,7 @@ from Products.Five import BrowserView
 from getpaid.core.interfaces import IBuyableContent
 from zope.component import queryAdapter
 
+
 class BoutiqueItemView(BrowserView):
     """
     Related methods for BoutiqueItem layout
@@ -17,6 +18,5 @@ class BoutiqueItemView(BrowserView):
         """
         return the price
         """
-        return IBuyableContent(self.context).price
-
-
+        payable = IBuyableContent(self.context)
+        return payable and "%.2f" % payable.price
