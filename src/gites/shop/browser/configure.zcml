@@ -88,4 +88,20 @@
      permission="zope2.View"
      />
 
+  <include package="z3c.unconfigure"
+           file="meta.zcml" />
+
+  <include package="Products.PloneGetPaid" />
+
+  <unconfigure>
+      <browser:viewlet  
+         name="cart-order-template"
+         manager="Products.PloneGetPaid.interfaces.IGetPaidCartViewletManager"
+         class="Products.PloneGetPaid.browser.cart.OrderTemplate"
+         permission="zope2.View"
+         weight="30"
+         />
+  </unconfigure>
+
+
 </configure>
