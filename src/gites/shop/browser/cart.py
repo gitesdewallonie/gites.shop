@@ -9,10 +9,10 @@ class GDWShoppingCartActions(ShoppingCartActions):
     """
     template = ZopeTwoPageTemplateFile('templates/cart-actions.pt')
 
-    @form.action(_("Continue Shopping"))
+    @form.action(_("Continue Shopping"), name='continue-shopping')
     def handle_continue_shopping( self, action, data ):
         portal = getToolByName(self.context, 'portal_url').getPortalObject()
-        boutique = getattr(portal, 'la-boutique')
+        boutique = getattr(portal, 'shop')
         return self.request.RESPONSE.redirect(boutique.absolute_url())
 
 
