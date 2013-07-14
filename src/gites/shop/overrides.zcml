@@ -55,7 +55,7 @@
      />
 
   <browser:viewlet
-     name="cart-actions"
+     name="20cart-actions"
      manager="Products.PloneGetPaid.interfaces.IGetPaidCartViewletManager"
      template="browser/templates/cart-actions.pt"
      class=".browser.cart.GDWShoppingCartActions"
