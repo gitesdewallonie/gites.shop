@@ -86,6 +86,7 @@ class GDWCheckoutAddress(CheckoutAddress):
         return
 
 class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
+    template = ZopeTwoPageTemplateFile("templates/checkout-review-pay.pt")
 
     def customise_widgets(self, fields):
         pass
