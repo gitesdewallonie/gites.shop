@@ -12,14 +12,6 @@
         <td tal:content="view/subtotal_price">[subtotal price]</td>
       </tr>
       <tr>
-        <th i18n:translate="Shipping">Shipping</th>
-        <td tal:content="view/shipping_price">[shipping price]</td>
-      </tr>
-      <tr tal:repeat="tax view/tax_list">
-        <th tal:content="tax/name">[tax name]</th>
-        <td tal:content="tax/value">[tax value]</td>
-      </tr>
-      <tr>
         <th i18n:translate="Total">Total</th>
         <td tal:content="view/total_price">total_price</td>
       </tr>
