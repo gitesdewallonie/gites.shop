@@ -1,6 +1,6 @@
 from zope import schema
 from zope.i18nmessageid import MessageFactory
-_ = MessageFactory('getpaid')
+from gites.locales import GitesMessageFactory as _
 from zope.interface import Interface
 from zope.viewlet.interfaces import IViewletManager
 
