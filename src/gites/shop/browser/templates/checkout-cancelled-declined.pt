@@ -4,9 +4,5 @@
 
     <h3 i18n:translate="">We are sorry but your credit card was declined.</h3>
 
-    <div>
-        Please <a href="javascript:history.go(-1)">click here</a> to try your transaction again.
-    </div>
-
   </metal:block>
 </metal:page>
