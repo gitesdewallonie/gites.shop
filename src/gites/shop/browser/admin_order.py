@@ -17,7 +17,8 @@ from Products.CMFCore.utils import getToolByName
 from getpaid.core import interfaces
 
 def renderItemCode( item, formatter ):
-    plone = component.getSiteManager().context
+    from zope.component.hooks import getSite
+    plone = getSite()
     uid_cat = getToolByName(plone, 'uid_catalog')
     brains = uid_cat(UID=item.item_id)
     if brains:
@@ -46,9 +47,9 @@ class GDWAllItems( AllItems ):
         column.GetterColumn( title=_(u"Item Id"), getter=renderItemId ),
         column.GetterColumn( title=_(u"Name"), getter=renderItemName ),
         column.GetterColumn( title=_(u"Item Code"), getter=renderItemCode ),
-        column.GetterColumn( title=_(u"Price"), getter=renderItemCost ),        
+        column.GetterColumn( title=_(u"Price"), getter=renderItemCost ),
         column.GetterColumn( title=_(u"Quantity"), getter=AttrColumn("quantity" ) ),
-        column.GetterColumn( title=_(u"Total"), getter=renderItemPrice ),        
+        column.GetterColumn( title=_(u"Total"), getter=renderItemPrice ),
         column.GetterColumn( title=_(u"Status"), getter=AttrColumn("fulfillment_state" ) ),
         ]
 
@@ -69,7 +70,7 @@ class GDWOrderSummaryComponent( OrderSummaryComponent ):
                 'ship_second_line': infos.ship_second_line,
                 'ship_city': infos.ship_city,
                 'ship_country': self.vocab_countries.getTerm(infos.ship_country).title,
-                'ship_state': self.vocab_states.getTerm(infos.ship_state).title,
+                'ship_state': '',
                 'ship_postal_code': infos.ship_postal_code}
 
     def getBillingAddress(self):
@@ -80,7 +81,7 @@ class GDWOrderSummaryComponent( OrderSummaryComponent ):
                 'bill_second_line': infos.bill_second_line,
                 'bill_city': infos.bill_city,
                 'bill_country': self.vocab_countries.getTerm(infos.bill_country).title,
-                'bill_state': self.vocab_states.getTerm(infos.bill_state).title,
+                'bill_state': '',
                 'bill_postal_code': infos.bill_postal_code,
                 'vat_number': infos.vat_number}
 
