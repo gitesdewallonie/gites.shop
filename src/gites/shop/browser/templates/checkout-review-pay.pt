@@ -12,23 +12,32 @@
 	 tal:content="structure view/hidden_inputs"> </div>
 
     <div class="portalMessage" tal:content="view/status" tal:condition="view/status"> </div>
-   <div style="float: left; padding-left: 3em; width: 30%;"
-        tal:define="ship_same_billing request/form.ship_same_billing|nothing;
-                shipping_address python: ship_same_billing and 'gites.shop.interfaces.IBillingAddress' or 'gites.shop.interfaces.IShippingAddress'">
-      <fieldset tal:define="widgets python: view.getWidgetsByIName(shipping_address)">
-        <legend i18n:translate=""> Mailing Address </legend>
-        <div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
-      </fieldset>
-   </div>
 
-      <div>
-	 <div style="float:left; width:30%">
+    <div style="float: left; width: 30%;">
 	  <fieldset tal:define="widgets python: view.getWidgetsByIName('gites.shop.interfaces.IBillingAddress')">
 	    <legend i18n:translate=""> Billing Address </legend>
-	    <div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
+        <tal:block tal:repeat="widget widgets">
+            <tal:sameAsBill tal:condition="not:repeat/widget/start">
+                <span class="widget" tal:content="structure widget"/><br/>
+            </tal:sameAsBill>
+        </tal:block>
 	  </fieldset>
-	 </div>
-      </div>
+     </div>
+
+	 <div style="float:left; padding-left: 3em; width:30%"
+          tal:define="ship_same_billing request/form.ship_same_billing|nothing;
+                      shipping_address python: ship_same_billing and 'gites.shop.interfaces.IBillingAddress' or 'gites.shop.interfaces.IShippingAddress'">
+      <fieldset tal:define="widgets python: view.getWidgetsByIName(shipping_address)">
+        <legend i18n:translate=""> Mailing Address </legend>
+        <tal:block tal:repeat="widget widgets">
+          <tal:def tal:define="firstwidget repeat/widget/start">
+            <tal:sameAsBill tal:condition="python: not ship_same_billing or not firstwidget">
+                <span class="widget" tal:content="structure widget"/><br/>
+            </tal:sameAsBill>
+          </tal:def>
+        </tal:block>
+      </fieldset>
+     </div>
 
       <div class="visualClear"><!-- --></div>
 
