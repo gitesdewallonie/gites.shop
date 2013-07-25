@@ -3,6 +3,11 @@
   <metal:block fill-slot="getpaid_content">
     <h3 i18n:translate="heading_checkout"> Checkout </h3>
 
+  <script type="text/javascript"
+          charset="utf-8"
+          src=""
+          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++gdwshop/addresses.js"></script>
+
   <form action="."
         tal:attributes="action request/URL"
         method="post"

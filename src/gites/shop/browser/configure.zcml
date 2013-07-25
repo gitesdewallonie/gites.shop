@@ -2,6 +2,12 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:five="http://namespaces.zope.org/five">
 
+  <browser:resourceDirectory
+      name="gdwshop"
+      directory="resources/"
+      permission="zope2.View"
+      />
+
   <browser:page
      for="*"
      name="shop_folder_view"
