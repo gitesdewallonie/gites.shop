@@ -1,11 +1,9 @@
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.i18nl10n import utranslate
 from Products.PloneGetPaid.browser.checkout import CheckoutAddress
 from Products.PloneGetPaid.interfaces import INamedOrderUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gites.shop import interfaces
-from gites.shop.browser.payment import (ShippingAddress,
-                                                BillingAddress,
-                                                ContactInformation)
 from getpaid.core.interfaces import (IUserContactInformation,
                                      IUserPaymentInformation,
                                      IOrderManager,
@@ -13,18 +11,18 @@ from getpaid.core.interfaces import (IUserContactInformation,
                                      IShoppingCartUtility,
                                      IFormSchemas,
                                      keys)
-from Products.PloneGetPaid.browser.widgets import CountrySelectionWidget, StateSelectionWidget
-from Products.PloneGetPaid.browser.checkout import CheckoutReviewAndPay
+from Products.PloneGetPaid.browser.widgets import CountrySelectionWidget
+from Products.PloneGetPaid.browser.checkout import (CheckoutReviewAndPay,
+                                                    OrderFormatter)
+from Products.PloneGetPaid.browser.cart import formatLinkCell
 from Products.PloneGetPaid.interfaces import IGetPaidManagementOptions
-from zope.lifecycleevent import ObjectCreatedEvent
+import Products.PloneGetPaid.browser.cart as cart_core
 
+from zc.table import column
 from zope.formlib import form
 from AccessControl import getSecurityManager
 from zope import component
 from getpaid.core import options
-from getpaid.core.order import Order
-from cPickle import loads, dumps
-from zope.event import notify
 from Products.PloneGetPaid.i18n import _
 
 ##############################
@@ -88,8 +86,40 @@ class GDWCheckoutAddress(CheckoutAddress):
 class GDWCheckoutReviewAndPay(CheckoutReviewAndPay):
     template = ZopeTwoPageTemplateFile("templates/checkout-review-pay.pt")
 
+    columns = [
+        column.GetterColumn(name="Quantity", title=_(u"Quantity"), getter=cart_core.LineItemColumn("quantity")),
+        column.GetterColumn(name="Name", title=_(u"Name"), getter=cart_core.lineItemURL, cell_formatter=formatLinkCell),
+        column.GetterColumn(name="Price", title=_(u"Price"), getter=cart_core.lineItemPrice),
+        column.GetterColumn(name="Total", title=_(u"Total"), getter=cart_core.lineItemTotal),
+       ]
+
     def customise_widgets(self, fields):
         pass
+
+    def renderCart(self):
+        cart = component.getUtility(IShoppingCartUtility).get(self.context)
+        if not cart:
+            return _(u"N/A")
+
+        for column in self.columns:
+            if hasattr(column, 'title'):
+                column.title = utranslate(domain='plonegetpaid',
+                                          msgid=column.name,
+                                          context=self.request)
+
+        # create an order so that tax/shipping utilities have full order information
+        # to determine costs (ie. billing/shipping address ).
+        order = self.createTransientOrder()
+        formatter = OrderFormatter( order,
+                                    self.request,
+                                    cart.values(),
+                                    prefix=self.prefix,
+                                    visible_column_names = [c.name for c in self.columns],
+                                    #sort_on = ( ('name', False)
+                                    columns = self.columns )
+
+        formatter.cssClasses['table'] = 'listing'
+        return formatter()
 
     @form.action(_(u"Make Payment"), name="make-payment")#, condition=form.haveInputWidgets )
     def makePayment( self, action, data ):
