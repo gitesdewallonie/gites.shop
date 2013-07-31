@@ -62,6 +62,15 @@
      />
 
   <browser:viewlet
+     name="cart-listing"
+     manager="Products.PloneGetPaid.interfaces.IGetPaidCartViewletManager"
+     template="browser/templates/cart-listing.pt"
+     class=".browser.cart.GDWShoppingCartListing"
+     permission="zope2.View"
+     weight="10"
+     />
+
+  <browser:viewlet
      name="20cart-actions"
      manager="Products.PloneGetPaid.interfaces.IGetPaidCartViewletManager"
      template="browser/templates/cart-actions.pt"
