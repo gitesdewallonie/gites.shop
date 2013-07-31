@@ -62,7 +62,8 @@
 			   tal:attributes="id action/__name__;
 			   				   name action/__name__;
 			   				   value python:str(action.label);"
-			   i18n:attributes="value" />
+               i18n:domain="gites"
+               i18n:attributes="value" />
 	  </tal:loop>
 	</span>
       </div>
