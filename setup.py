@@ -43,7 +43,8 @@ setup(
         'Products.PloneGetPaid',
         'gites.core',
         'getpaid.ogone',
-        'gites.locales'
+        'gites.locales',
+        'z3c.unconfigure'
     ],
     extras_require={
         'test': [
