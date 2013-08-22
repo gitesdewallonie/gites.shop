@@ -42,7 +42,8 @@ setup(
         'setuptools',
         'Products.PloneGetPaid',
         'gites.core',
-        'getpaid.ogone'
+        'getpaid.ogone',
+        'gites.locales'
     ],
     extras_require={
         'test': [
