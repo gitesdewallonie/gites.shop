@@ -55,7 +55,7 @@
                 <tal:cond condition="bill_second_line">
                   <span tal:content="bill_second_line" /><br />
                 </tal:cond>
-                <span tal:content="bill_first_line" /><br />
+                <span tal:content="bill_city" /><br />
                 <span tal:content="bill_country" /><br />
                 <span tal:content="bill_state" /><br />
                 <span tal:content="bill_postal_code" /><br />
