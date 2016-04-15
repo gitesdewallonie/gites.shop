@@ -1,7 +1,6 @@
 from gites.shop import interfaces
 from zope import interface
 from getpaid.core import options
-from getpaid.core.interfaces import IUserContactInformation
 
 class ShippingAddress( options.PersistentBag ):
     interface.implements( interfaces.IShippingAddress )
@@ -12,6 +11,6 @@ class BillingAddress( options.PersistentBag ):
     schema = interfaces.IBillingAddress
 
 class ContactInformation( options.PersistentBag ):
-    interface.implements( IUserContactInformation )
+    interface.implements( interfaces.IUserContactInformation )
     schema = IUserContactInformation
 

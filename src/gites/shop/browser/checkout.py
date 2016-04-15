@@ -4,8 +4,7 @@ from Products.PloneGetPaid.browser.checkout import CheckoutAddress
 from Products.PloneGetPaid.interfaces import INamedOrderUtility
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gites.shop import interfaces
-from getpaid.core.interfaces import (IUserContactInformation,
-                                     IUserPaymentInformation,
+from getpaid.core.interfaces import (IUserPaymentInformation,
                                      IOrderManager,
                                      IPaymentProcessor,
                                      IShoppingCartUtility,
@@ -45,17 +44,18 @@ class MyBillAddressInfo( options.PropertyBag ):
 class MyContactInfo( options.PropertyBag ):
     title = "Contact Information"
 
-MyContactInfo.initclass( IUserContactInformation )
+MyContactInfo.initclass( interfaces.IUserContactInformation )
 MyBillingInfo.initclass( IUserPaymentInformation )
 MyShipAddressInfo.initclass( interfaces.IShippingAddress )
 MyBillAddressInfo.initclass( interfaces.IBillingAddress )
+
 
 class GDWCheckoutAddress(CheckoutAddress):
     template = ZopeTwoPageTemplateFile("templates/checkout-address.pt")
 
     form_fields = form.Fields( interfaces.IBillingAddress,
                                interfaces.IShippingAddress,
-                               IUserContactInformation )
+                               interfaces.IUserContactInformation )
     form_fields['ship_country'].custom_widget = CountrySelectionWidget
     form_fields['bill_country'].custom_widget = CountrySelectionWidget
 
@@ -64,7 +64,7 @@ class GDWCheckoutAddress(CheckoutAddress):
     def setupDataAdapters( self ):
         self.adapters = {}
         user = getSecurityManager().getUser()
-        contact_info = component.queryAdapter( user, IUserContactInformation )
+        contact_info = component.queryAdapter( user, interfaces.IUserContactInformation )
         if contact_info is None:
             contact_info = MyContactInfo()
 
@@ -77,8 +77,7 @@ class GDWCheckoutAddress(CheckoutAddress):
                                                   interfaces.IShippingAddress)
         if shipping_address is None:
             shipping_address = MyShipAddressInfo()
-
-        self.adapters[ IUserContactInformation ] = contact_info
+        self.adapters[ interfaces.IUserContactInformation ] = contact_info
         self.adapters[ interfaces.IShippingAddress ] = shipping_address
         self.adapters[ interfaces.IBillingAddress ] = billing_address
         return

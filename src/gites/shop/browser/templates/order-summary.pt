@@ -33,11 +33,13 @@
                 tal:content="name" /><br/>
           <span tal:define="contact view/getContactInfos;
                             email contact/email|nothing;
-                            phone_number contact/phone_number|nothing;">
+                            phone_number contact/phone_number|nothing;
+                            birth_date contact/birth_date|nothing;">
                 Email: <a href="" tal:attributes="href string:mailto:${email}"
                           tal:content="email"
                           /><br/>
-                Phone: <span tal:content="phone_number"/>
+                Phone: <span tal:content="phone_number"/><br/>
+                Birthday: <span tal:content="birth_date"/><br/>
           </span>
           <table cellspacing="5px">
             <tr>

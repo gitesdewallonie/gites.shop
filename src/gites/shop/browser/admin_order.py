@@ -62,7 +62,8 @@ class GDWOrderSummaryComponent( OrderSummaryComponent ):
     def getContactInfos(self):
         infos = self.order.contact_information
         return {'email': infos.email,
-                'phone_number': infos.phone_number}
+                'phone_number': infos.phone_number,
+                'birth_date': getattr(infos, 'birth_date', '')}
 
     def getShippingAddress(self):
         infos = self.order.shipping_address

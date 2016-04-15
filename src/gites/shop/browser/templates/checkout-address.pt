@@ -7,6 +7,20 @@
           charset="utf-8"
           src=""
           tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++gdwshop/addresses.js"></script>
+  <script type="text/javascript"
+          charset="utf-8"
+          src=""
+          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/languages/calendar-en.js"></script>
+  <script type="text/javascript"
+          charset="utf-8"
+          src=""
+          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/datetimewidget.js"></script>
+  <script type="text/javascript"
+          charset="utf-8"
+          src=""
+          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/calendar-setup.js"></script>
+  <link href="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/calendar-system.css" rel="stylesheet" type="text/css" media="screen" />
+
 
   <form action="."
         tal:attributes="action request/URL"
@@ -21,7 +35,7 @@
     <table>
 	<tr>
 		<td colspan="2">
-	  		<fieldset tal:define="widgets python: view.getWidgetsByIName('getpaid.core.interfaces.IUserContactInformation')">
+		<fieldset tal:define="widgets python: view.getWidgetsByIName('gites.shop.interfaces.IUserContactInformation')">
 	    		<legend i18n:translate=""> Contact Information </legend>
 	    		<div metal:use-macro="context/@@getpaid-form/fieldset"> </div>
 	  		</fieldset>

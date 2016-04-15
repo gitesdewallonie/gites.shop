@@ -2,6 +2,8 @@ from zope import schema
 from gites.locales import GitesMessageFactory as _
 from zope.interface import Interface
 from zope.viewlet.interfaces import IViewletManager
+from getpaid.core.fields import PhoneNumber, emailValidator
+from getpaid.core.interfaces import EmailFormatPreferenceVocabulary
 
 
 class IGDWOrderDetailsManager(IViewletManager):
@@ -43,3 +45,25 @@ class IShippingAddress(Interface):
                                  vocabulary="getpaid.countries",
                                  default=u'BE')
     ship_postal_code = schema.TextLine(title=_(u"Zip Code"))
+
+
+class IUserContactInformation(Interface):
+
+    name = schema.TextLine(title=_(u"Your Name"))
+
+    phone_number = PhoneNumber(title=_(u"Phone Number"),
+                               description=_(u"Only digits allowed - e.g. 3334445555 and not 333-444-5555 "))
+
+    email = schema.TextLine(title=_(u"Email"),
+                            description=_(u"Contact Information"),
+                            constraint=emailValidator)
+
+    marketing_preference = schema.Bool(title=_(u"Can we contact you with offers?"),
+                                       required=False)
+
+    email_html_format = schema.Choice(title=_(u"Email Format"),
+                                      description=_(u"Would you prefer to receive rich html emails or only plain text"),
+                                      vocabulary=EmailFormatPreferenceVocabulary,
+                                      default=True)
+
+    birth_date = schema.Date(title=_(u"Birthday"))
