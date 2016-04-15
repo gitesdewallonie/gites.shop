@@ -4,6 +4,8 @@ from zope.interface import Interface
 from zope.viewlet.interfaces import IViewletManager
 from getpaid.core.fields import PhoneNumber, emailValidator
 from getpaid.core.interfaces import EmailFormatPreferenceVocabulary
+from zope.i18nmessageid import MessageFactory
+__ = MessageFactory('getpaid')
 
 
 class IGDWOrderDetailsManager(IViewletManager):
@@ -49,20 +51,20 @@ class IShippingAddress(Interface):
 
 class IUserContactInformation(Interface):
 
-    name = schema.TextLine(title=_(u"Your Name"))
+    name = schema.TextLine(title=__(u"Your Name"))
 
-    phone_number = PhoneNumber(title=_(u"Phone Number"),
-                               description=_(u"Only digits allowed - e.g. 3334445555 and not 333-444-5555 "))
+    phone_number = PhoneNumber(title=__(u"Phone Number"),
+                               description=__(u"Only digits allowed - e.g. 3334445555 and not 333-444-5555 "))
 
-    email = schema.TextLine(title=_(u"Email"),
-                            description=_(u"Contact Information"),
+    email = schema.TextLine(title=__(u"Email"),
+                            description=__(u"Contact Information"),
                             constraint=emailValidator)
 
-    marketing_preference = schema.Bool(title=_(u"Can we contact you with offers?"),
+    marketing_preference = schema.Bool(title=__(u"Can we contact you with offers?"),
                                        required=False)
 
-    email_html_format = schema.Choice(title=_(u"Email Format"),
-                                      description=_(u"Would you prefer to receive rich html emails or only plain text"),
+    email_html_format = schema.Choice(title=__(u"Email Format"),
+                                      description=__(u"Would you prefer to receive rich html emails or only plain text"),
                                       vocabulary=EmailFormatPreferenceVocabulary,
                                       default=True)
 
