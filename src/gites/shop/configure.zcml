@@ -7,6 +7,17 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <!-- Enable zc.datetimewidget to load its zcml.
+       Do not include zc.resourcelibrarys configure.zcml, as this
+       will not work in z2. -->
+  <include package="zc.resourcelibrary" file="meta.zcml" />
+  <!-- Contains a copy of the resource directory of zc.datetimewidget
+       registered as a browser:resourceDirectory.
+       Also contains a viewlet manager with viewlets providing html
+       snippets for including the javascripts in your templates (see below). -->
+  <include package="gocept.datetimewidget" />
+  <include package="zc.datetimewidget" />
+  <!-- Replace the formlib datetimewidget with the zc one. -->
   <genericsetup:registerProfile
       name="default"
       title="gites.shop"

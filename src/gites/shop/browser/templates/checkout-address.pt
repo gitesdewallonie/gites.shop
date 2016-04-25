@@ -7,19 +7,8 @@
           charset="utf-8"
           src=""
           tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++gdwshop/addresses.js"></script>
-  <script type="text/javascript"
-          charset="utf-8"
-          src=""
-          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/languages/calendar-en.js"></script>
-  <script type="text/javascript"
-          charset="utf-8"
-          src=""
-          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/datetimewidget.js"></script>
-  <script type="text/javascript"
-          charset="utf-8"
-          src=""
-          tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/calendar-setup.js"></script>
-  <link href="" tal:attributes="href string:${context/@@plone_portal_state/portal_url}/++resource++zc.datetimewidget/calendar-system.css" rel="stylesheet" type="text/css" media="screen" />
+
+  <tal:jsviewlets replace="structure provider:zc.datetimewidget.resources" />
 
 
   <form action="."

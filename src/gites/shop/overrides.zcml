@@ -83,4 +83,10 @@
     provides="getpaid.core.interfaces.IFormSchemas"
     factory=".preferences.GitesFormSchemas"/>
 
+  <includeOverrides package="zc.datetimewidget" />
+  <!-- Overwrite the zc.resourcelibrary resourcedirectory
+       of zc.datetimewidget with a browser:resourceDirectory. -->
+  <includeOverrides package="gocept.datetimewidget" />
+
+
 </configure>

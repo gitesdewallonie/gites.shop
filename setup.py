@@ -44,7 +44,9 @@ setup(
         'gites.core',
         'getpaid.ogone',
         'gites.locales',
-        'z3c.unconfigure'
+        'z3c.unconfigure',
+        'gocept.datetimewidget'
+
     ],
     extras_require={
         'test': [
